@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public float jumpForce = 5f;
     public float gravityScale = 2f;
+    public float pressedGravity = 3f;
     public GameObject pipePrefab;
     public float pipeSpawnRate = 2f;
     public float pipeSpeed = 2f;
@@ -56,17 +57,25 @@ public class PlayerController : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 hasStarted = true;
-                rb.gravityScale = gravityScale;
                 AudioManager.instance.UnpauseMusic();
-                Jump();
+                // Jump();
             }
             return;
         }
+        rb.gravityScale = gravityScale;
+        rb.MoveRotation(87f);
 
         // Jump
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
+            rb.MoveRotation(93f);
             Jump();
+        }
+
+        if (Input.GetMouseButton(1))
+        {
+            rb.MoveRotation(85f);
+            rb.gravityScale = pressedGravity;
         }
 
         // Spawn Pipes
@@ -83,7 +92,7 @@ public class PlayerController : MonoBehaviour
     {
         rb.linearVelocity = Vector2.zero;
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        AudioManager.instance.PlayJumpSound(); // Play jump sound
+        // AudioManager.instance.PlayJumpSound(); // Play jump sound
     }
 
     // Spawn Implementation
